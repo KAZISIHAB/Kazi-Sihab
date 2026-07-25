@@ -1,27 +1,561 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tom Boom - আয় করুন সহজেই</title>
-    <style>
-        :root {
-            --primary: #8B5CF6;
-            --primary-dark: #7C3AED;
-            --primary-light: #A78BFA;
-            --secondary: #06D6A0;
-            --secondary-dark: #05C793;
-            --accent: #FFD166;
-            --dark: #1F2937;
-            --darker: #111827;
-            --light: #FFFFFF;
-            --gray: #F3F4F6;
-            --gray-dark: #E5E7EB;
-            --text: #374151;
-            --text-light: #6B7280;
-            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            --gradient: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Make Money — বট</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --emerald-950:#07211a;
+    --emerald-900:#0b2f24;
+    --emerald-800:#0f3d2e;
+    --emerald-700:#155a41;
+    --teal-400:#2fe0b5;
+    --teal-300:#7ef2d4;
+    --gold-400:#ffc94d;
+    --gold-300:#ffe08a;
+    --coral-500:#ff6a5c;
+    --ivory:#f4efdf;
+    --ivory-dim:#c9d6cd;
+    --line:rgba(255,201,77,0.16);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:'Hind Siliguri','Sora',system-ui,sans-serif;
+    background:
+      radial-gradient(circle at 15% -10%, #1a4a37 0%, transparent 45%),
+      radial-gradient(circle at 110% 5%, #123d2c 0%, transparent 40%),
+      linear-gradient(160deg, var(--emerald-950) 0%, #051a14 100%);
+    color:var(--ivory);
+    display:flex; justify-content:center;
+    min-height:100vh;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, rgba(255,201,77,0.35) 0, transparent 100%),
+      radial-gradient(1px 1px at 140px 90px, rgba(126,242,212,0.3) 0, transparent 100%),
+      radial-gradient(1.5px 1.5px at 260px 40px, rgba(255,201,77,0.25) 0, transparent 100%),
+      radial-gradient(1px 1px at 340px 160px, rgba(126,242,212,0.25) 0, transparent 100%);
+    background-repeat:repeat; background-size:380px 220px;
+    opacity:.55; pointer-events:none; z-index:0;
+  }
+
+  /* full phone-screen frame */
+  .app-shell{
+    width:100%; max-width:460px;
+    min-height:100vh;
+    display:flex; flex-direction:column;
+    position:relative; z-index:1;
+    background:linear-gradient(180deg, rgba(15,61,46,0.4), rgba(5,20,15,0.55));
+  }
+
+  /* ===== TOP BAR (like a bot header) ===== */
+  .topbar{
+    padding:calc(12px + var(--safe-top)) 16px 12px;
+    display:flex; align-items:center; gap:11px;
+    background:rgba(5,18,14,0.75);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:20;
+  }
+  .bot-avatar{
+    width:42px;height:42px;border-radius:14px;
+    background:conic-gradient(from 210deg, var(--gold-300), var(--gold-400), #b8860b, var(--gold-300));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800; color:#3a2a00; font-size:18px;
+    box-shadow:0 4px 12px rgba(255,201,77,0.35);
+    flex-shrink:0;
+  }
+  .bot-meta{flex:1; min-width:0;}
+  .bot-name{
+    font-family:'Sora',sans-serif; font-weight:800; font-size:16px;
+    display:flex; align-items:center; gap:6px; color:var(--ivory);
+  }
+  .bot-name .verified{color:var(--teal-300); font-size:13px;}
+  .bot-status{
+    font-size:11.5px; color:var(--teal-300); font-weight:600;
+    display:flex; align-items:center; gap:5px; margin-top:1px;
+  }
+  .dot-live{
+    width:7px;height:7px;border-radius:50%; background:var(--teal-400);
+    box-shadow:0 0 0 3px rgba(47,224,181,0.2);
+    animation:pulse-dot 1.8s infinite;
+  }
+  @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+  .topbar-action{
+    width:38px;height:38px;border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ivory-dim); font-size:15px; border:1px solid var(--line);
+    cursor:pointer;
+  }
+
+  /* ===== SCROLL CONTENT ===== */
+  .content{
+    flex:1; padding:16px 14px 12px;
+    padding-bottom:calc(96px + var(--safe-bottom));
+  }
+
+  /* greeting hero */
+  .greet-hero{
+    border-radius:26px; padding:18px 18px 20px;
+    margin-bottom:14px;
+    background:linear-gradient(135deg, #124430 0%, #0c3628 55%, #0a2e22 100%);
+    border:1px solid var(--line);
+    position:relative; overflow:hidden;
+  }
+  .greet-hero::after{
+    content:""; position:absolute; top:-45%; right:-15%;
+    width:190px;height:190px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,201,77,0.16), transparent 70%);
+  }
+  .greet-line{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
+  }
+  .greet-text .hi{font-size:13px; color:var(--ivory-dim); font-weight:600;}
+  .greet-text .name{
+    font-family:'Sora',sans-serif; font-size:19px; font-weight:700; color:var(--ivory);
+    margin-top:2px; display:flex; align-items:center; gap:6px;
+  }
+  .id-pill{
+    font-size:11.5px;color:var(--ivory-dim);
+    background:rgba(0,0,0,0.28);
+    padding:3px 11px;border-radius:30px;
+    display:inline-block;margin-top:6px;
+    border:1px solid rgba(126,242,212,0.2);
+  }
+  .login-pill{
+    background:linear-gradient(145deg, var(--teal-300), var(--teal-400));
+    border:none;border-radius:40px;
+    padding:9px 14px;font-weight:700;font-size:12px;
+    color:var(--emerald-950); white-space:nowrap; cursor:pointer;
+    box-shadow:0 6px 14px rgba(47,224,181,0.32);
+    flex-shrink:0;
+  }
+  .login-pill:active{transform:scale(0.95);}
+
+  .balance-block{margin-top:16px;}
+  .balance-label{font-size:11.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--ivory-dim);font-weight:600;}
+  .balance-value{
+    font-family:'Sora',sans-serif; font-size:36px; font-weight:800; margin-top:3px;
+    background:linear-gradient(90deg, var(--gold-300), var(--gold-400) 60%, #ffb020);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    display:flex;align-items:baseline;gap:6px;
+  }
+  .balance-value small{font-size:13px;color:var(--ivory-dim);-webkit-text-fill-color:var(--ivory-dim);font-weight:600;}
+
+  .progress-wrap{margin-top:13px;}
+  .progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--ivory-dim);margin-bottom:6px;}
+  .progress-track{height:7px;border-radius:30px;background:rgba(0,0,0,0.35);overflow:hidden;border:1px solid rgba(255,255,255,0.05);}
+  .progress-fill{height:100%;border-radius:30px;background:linear-gradient(90deg, var(--teal-400), var(--gold-400));width:84%;box-shadow:0 0 10px rgba(47,224,181,0.5);}
+
+  /* quick action grid — bot main-menu style */
+  .quick-title{
+    font-size:13px; font-weight:700; color:var(--ivory-dim);
+    margin:6px 4px 10px; display:flex; align-items:center; gap:6px;
+  }
+  .quick-title i{color:var(--gold-400);}
+  .quick-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:9px;
+    margin-bottom:18px;
+  }
+  .quick-btn{
+    background:rgba(5,20,15,0.55);
+    border:1px solid var(--line); border-radius:18px;
+    padding:12px 4px 10px; text-align:center; cursor:pointer;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .quick-btn:active{transform:scale(0.93); background:rgba(255,201,77,0.08);}
+  .quick-btn .ic{
+    width:38px;height:38px;border-radius:12px; margin:0 auto 6px;
+    display:flex;align-items:center;justify-content:center; font-size:16px;
+  }
+  .quick-btn .lb{font-size:10.5px; color:var(--ivory-dim); font-weight:600; line-height:1.2;}
+  .ic-gold{background:linear-gradient(135deg, var(--gold-300), var(--gold-400)); color:var(--emerald-950);}
+  .ic-teal{background:linear-gradient(135deg, var(--teal-300), var(--teal-400)); color:var(--emerald-950);}
+  .ic-coral{background:linear-gradient(135deg, #ff9d8f, var(--coral-500)); color:#3a0f0a;}
+  .ic-lav{background:linear-gradient(135deg, #b39ddb, #8467c9); color:#1d1233;}
+
+  /* stat mini row */
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .stat-card{background:rgba(5,20,15,0.55);border-radius:20px;padding:13px 10px;text-align:center;border:1px solid var(--line);}
+  .stat-card i{color:var(--gold-400);font-size:15px;margin-bottom:4px;}
+  .stat-card .value{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:var(--ivory);}
+  .stat-card .label{color:var(--ivory-dim);font-size:10.5px;font-weight:600;margin-top:2px;}
+
+  /* section pages (payment/ads/refer) */
+  .page{display:none; animation:fade .28s ease;}
+  .page.active-page{display:block;}
+  @keyframes fade{0%{opacity:.4;transform:translateY(8px);}100%{opacity:1;transform:translateY(0);}}
+
+  .section-head{
+    display:flex; align-items:center; gap:8px; margin:4px 4px 12px;
+  }
+  .section-head i{color:var(--gold-400); font-size:16px;}
+  .section-head span{font-family:'Sora',sans-serif; font-weight:700; font-size:16px;}
+
+  .panel{
+    background:rgba(5,20,15,0.55); border-radius:22px; padding:16px 16px;
+    border:1px solid var(--line); margin-bottom:14px;
+  }
+  .panel-title{display:flex;justify-content:space-between;align-items:center;color:var(--ivory);font-weight:700;font-size:14px;}
+  .chip{background:linear-gradient(120deg, var(--teal-300), var(--teal-400));color:var(--emerald-950);font-weight:700;font-size:11.5px;padding:3px 12px;border-radius:40px;}
+  .chip-gold{background:linear-gradient(120deg, var(--gold-300), var(--gold-400));}
+
+  .row-item{
+    background:rgba(0,0,0,0.28); padding:11px 14px; border-radius:16px;
+    display:flex;justify-content:space-between;align-items:center;
+    color:var(--ivory-dim); font-size:13px; border-left:3px solid var(--gold-400); margin-top:10px;
+  }
+  .row-item .badge{background:var(--gold-400);color:var(--emerald-950);font-weight:700;padding:2px 11px;border-radius:40px;font-size:11.5px;}
+
+  .refer-code{
+    background:rgba(0,0,0,0.35); padding:10px 18px; border-radius:60px;
+    font-family:'Sora',sans-serif; font-size:18px; font-weight:700; letter-spacing:2.2px;
+    color:var(--gold-300); border:1.5px dashed var(--gold-400); margin-top:12px; text-align:center;
+  }
+  .refer-stats{display:flex;justify-content:space-between;margin:13px 0 4px;color:var(--ivory-dim);font-size:13px;}
+  .refer-stats i{color:var(--teal-300);margin-right:5px;}
+
+  .withdraw-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;}
+  .withdraw-option{
+    background:rgba(0,0,0,0.3); padding:9px 14px; border-radius:40px;
+    font-size:12.5px; font-weight:600; color:var(--ivory-dim);
+    border:1px solid rgba(255,201,77,0.22); display:flex;align-items:center;gap:6px;
+    cursor:pointer; transition:.15s; min-height:38px;
+  }
+  .withdraw-option i{color:var(--gold-400);}
+  .withdraw-option.selected{background:linear-gradient(120deg, var(--gold-300), var(--gold-400));color:var(--emerald-950);border-color:transparent;}
+  .withdraw-option.selected i{color:var(--emerald-950);}
+
+  .input-group{
+    background:rgba(0,0,0,0.4); border-radius:50px; padding:4px 16px;
+    display:flex;align-items:center; border:1px solid rgba(255,255,255,0.08); margin:10px 0;
+  }
+  .input-group i{color:#7b9284;margin-right:10px;}
+  .input-group input{background:transparent;border:none;padding:14px 0;color:var(--ivory);font-weight:500;width:100%;outline:none;font-size:15px;}
+  .input-group input::placeholder{color:#5f7869;}
+
+  .btn-gold{
+    background:linear-gradient(145deg, var(--gold-300), var(--gold-400));
+    border:none;padding:15px 0;width:100%;border-radius:50px;
+    font-weight:800;color:var(--emerald-950);font-size:15px;
+    box-shadow:0 10px 20px rgba(255,201,77,0.28); margin-top:12px; cursor:pointer; transition:.15s;
+    min-height:48px;
+  }
+  .btn-gold:active{transform:scale(0.97);}
+  .btn-teal{background:linear-gradient(145deg, var(--teal-300), var(--teal-400)); box-shadow:0 10px 20px rgba(47,224,181,0.28);}
+
+  .mini-text{color:#7b9284;font-size:11px;margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+  .mini-text i{color:var(--gold-400);}
+
+  .ad-slot{background:rgba(0,0,0,0.32);padding:13px;border-radius:18px;text-align:center;border:1px solid rgba(255,201,77,0.18);cursor:pointer;transition:.15s;min-height:88px;}
+  .ad-slot:active{transform:scale(0.95);}
+  .ad-slot i{color:var(--gold-400);font-size:21px;}
+  .ad-slot .t{color:var(--ivory);font-weight:600;font-size:13px;margin-top:4px;}
+  .ad-slot .p{color:var(--ivory-dim);font-size:11px;}
+  .ad-grid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+  .footer-note{margin-top:6px;text-align:center;color:#5f7869;font-size:10.5px;}
+
+  /* ===== BOTTOM NAV (fixed, bot-style) ===== */
+  .bottom-nav{
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:460px;
+    display:flex;
+    background:rgba(5,16,12,0.9);
+    backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    border-top:1px solid var(--line);
+    padding:8px 8px calc(8px + var(--safe-bottom));
+    z-index:30;
+  }
+  .nav-btn{
+    flex:1; background:transparent; border:none; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:7px 0; color:var(--ivory-dim); position:relative;
+    min-height:52px; justify-content:center;
+  }
+  .nav-btn .nav-ic{
+    width:26px;height:26px; display:flex;align-items:center;justify-content:center;
+    font-size:16px; border-radius:9px; transition:.2s;
+  }
+  .nav-btn .nav-lb{font-size:10px; font-weight:600; transition:.2s;}
+  .nav-btn.active .nav-ic{
+    background:linear-gradient(145deg, var(--gold-300), var(--gold-400));
+    color:var(--emerald-950);
+    box-shadow:0 4px 12px rgba(255,201,77,0.4);
+  }
+  .nav-btn.active .nav-lb{color:var(--gold-300);}
+  .nav-btn .nav-dot{
+    position:absolute; top:2px; right:22%;
+    width:7px;height:7px;border-radius:50%;background:var(--coral-500);
+    box-shadow:0 0 0 2px var(--emerald-950);
+    display:none;
+  }
+  .nav-btn.has-alert .nav-dot{display:block;}
+
+  /* toast */
+  .toast{
+    position:fixed; left:50%; bottom:calc(84px + var(--safe-bottom)); transform:translate(-50%, 16px);
+    background:linear-gradient(120deg, var(--gold-300), var(--gold-400));
+    color:var(--emerald-950); font-weight:700; font-size:13px;
+    padding:11px 20px; border-radius:50px;
+    box-shadow:0 14px 30px rgba(0,0,0,0.4);
+    display:flex; align-items:center; gap:8px;
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    z-index:50; max-width:88%; text-align:center;
+  }
+  .toast.show{opacity:1; transform:translate(-50%, 0);}
+
+  @media (max-width:360px){
+    .balance-value{font-size:30px;}
+    .quick-grid{gap:7px;}
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="bot-avatar">৳</div>
+    <div class="bot-meta">
+      <div class="bot-name">Make Money <i class="fas fa-badge-check verified"></i></div>
+      <div class="bot-status"><span class="dot-live"></span> অনলাইন · বট সক্রিয়</div>
+    </div>
+    <div class="topbar-action" id="notifBtn"><i class="fas fa-bell"></i></div>
+  </div>
+
+  <!-- SCROLLABLE CONTENT -->
+  <div class="content">
+
+    <!-- GREETING + BALANCE HERO (always visible) -->
+    <div class="greet-hero">
+      <div class="greet-line">
+        <div class="greet-text">
+          <div class="hi">স্বাগতম 👋</div>
+          <div class="name"><span>আব্দুর রহিম</span></div>
+          <div class="id-pill"><i class="far fa-id-card"></i> ID: 8712-4A9F</div>
+        </div>
+        <button class="login-pill" id="loginBtn"><i class="fas fa-sign-in-alt"></i> লগইন</button>
+      </div>
+
+      <div class="balance-block">
+        <div class="balance-label"><i class="fas fa-wallet"></i> মোট ব্যালেন্স</div>
+        <div class="balance-value" id="balanceValue">৳ 420 <small>টাকা</small></div>
+        <div class="progress-wrap">
+          <div class="progress-labels"><span>উইথড্র প্রগ্রেস</span><span>৮ / ১০ রেফার</span></div>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS (bot main-menu style) -->
+    <div class="quick-title"><i class="fas fa-th-large"></i> কুইক মেনু</div>
+    <div class="quick-grid">
+      <div class="quick-btn" data-goto="ads"><div class="ic ic-gold"><i class="fas fa-play"></i></div><div class="lb">এড দেখুন</div></div>
+      <div class="quick-btn" data-goto="refer"><div class="ic ic-teal"><i class="fas fa-user-plus"></i></div><div class="lb">রেফার করুন</div></div>
+      <div class="quick-btn" data-goto="payment"><div class="ic ic-coral"><i class="fas fa-money-bill-wave"></i></div><div class="lb">উইথড্র</div></div>
+      <div class="quick-btn" id="taskBtn"><div class="ic ic-lav"><i class="fas fa-tasks"></i></div><div class="lb">টাস্ক</div></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card"><i class="fas fa-user-plus"></i><div class="value">৮</div><div class="label">মোট রেফার</div></div>
+      <div class="stat-card"><i class="fas fa-gift"></i><div class="value">৩০</div><div class="label">ডেইলি বোনাস</div></div>
+    </div>
+
+    <!-- ===== HOME PAGE ===== -->
+    <div id="page-home" class="page active-page">
+      <div class="panel">
+        <div class="panel-title"><span><i class="fas fa-gem" style="color:#ffc94d;"></i> প্রথম লগইন বোনাস</span><span class="chip chip-gold">+২০ টাকা</span></div>
+        <div class="row-item"><span><i class="fas fa-calendar-day"></i> ডেইলি বোনাস</span><span class="badge">+৩০</span></div>
+        <div class="row-item" style="border-left-color:#2fe0b5;"><span><i class="fas fa-flag"></i> মিনিমাম উইথড্র</span><span class="badge" style="background:#2fe0b5;">৫০০৳</span></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span><i class="fas fa-id-card"></i> আপনার রেফার কোড</span><span class="chip">REF-7X9K</span></div>
+        <div class="refer-stats"><span><i class="fas fa-user-plus"></i> ৮ জন রেফার করেছেন</span><span><i class="fas fa-coins"></i> ১৬০ টাকা</span></div>
+      </div>
+    </div>
+
+    <!-- ===== PAYMENT PAGE ===== -->
+    <div id="page-payment" class="page">
+      <div class="section-head"><i class="fas fa-wallet"></i><span>পেমেন্ট</span></div>
+      <div class="panel">
+        <div class="panel-title"><span><i class="fas fa-hand-holding-usd" style="color:#ffc94d;"></i> উইথড্র করুন</span></div>
+        <div style="color:var(--ivory-dim);font-size:12.5px;display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;">
+          <span><i class="fas fa-check-circle" style="color:#2fe0b5;"></i> মিনিমাম ৫০০ টাকা</span>
+          <span><i class="fas fa-users"></i> ১০ রেফার প্রয়োজন</span>
+        </div>
+        <div class="withdraw-row" id="methodRow">
+          <span class="withdraw-option selected" data-m="বিকাশ"><i class="fas fa-mobile-alt"></i> বিকাশ</span>
+          <span class="withdraw-option" data-m="নগদ"><i class="fas fa-mobile-alt"></i> নগদ</span>
+          <span class="withdraw-option" data-m="বাইন্যান্স"><i class="fab fa-bitcoin"></i> বাইন্যান্স</span>
+        </div>
+        <div class="input-group"><i class="fas fa-phone"></i><input type="text" placeholder="নাম্বার (বিকাশ/নগদ)"></div>
+        <div class="input-group"><i class="fas fa-dollar-sign"></i><input type="text" placeholder="এমাউন্ট (টাকা)"></div>
+        <button class="btn-gold" id="withdrawBtn"><i class="fas fa-paper-plane"></i> উইথড্র করুন</button>
+        <div class="mini-text"><span><i class="fas fa-clock"></i> ২৪-৪৮ ঘণ্টা</span><span><i class="fas fa-shield-alt"></i> নিরাপদ</span></div>
+      </div>
+    </div>
+
+    <!-- ===== ADS PAGE ===== -->
+    <div id="page-ads" class="page">
+      <div class="section-head"><i class="fas fa-ad"></i><span>এড দেখে আয় করুন</span></div>
+      <div class="panel">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <i class="fas fa-ad" style="font-size:28px;color:#ffc94d;"></i>
+          <div><div style="color:var(--ivory);font-weight:700;">এড ভিউ</div><div style="color:var(--ivory-dim);font-size:12.5px;">প্রতি এড ৫ টাকা</div></div>
+          <span class="chip chip-gold" style="margin-left:auto;">+৫</span>
+        </div>
+        <div class="ad-grid">
+          <div class="ad-slot" data-ad="1"><i class="fas fa-play-circle"></i><div class="t">এড ১</div><div class="p">৫ টাকা</div></div>
+          <div class="ad-slot" data-ad="2"><i class="fas fa-play-circle"></i><div class="t">এড ২</div><div class="p">৫ টাকা</div></div>
+        </div>
+        <button class="btn-gold btn-teal" id="watchAdBtn" style="margin-top:16px;"><i class="fas fa-eye"></i> এড দেখুন</button>
+      </div>
+    </div>
+
+    <!-- ===== REFER PAGE ===== -->
+    <div id="page-refer" class="page">
+      <div class="section-head"><i class="fas fa-users"></i><span>রেফার করুন</span></div>
+      <div class="panel">
+        <div class="panel-title"><span><i class="fas fa-link"></i> আপনার রেফার লিংক</span><span class="chip">+২০ টাকা/রেফার</span></div>
+        <div class="refer-code">REF-7X9K</div>
+        <div class="refer-stats"><span><i class="fas fa-users"></i> ৮ জন রেফার করেছেন</span><span><i class="fas fa-coins"></i> ১৬০ টাকা</span></div>
+        <div class="withdraw-row" style="margin-top:4px;">
+          <span class="withdraw-option"><i class="fas fa-user-check"></i> রেফার ১: +২০</span>
+          <span class="withdraw-option"><i class="fas fa-user-check"></i> রেফার ২: +২০</span>
+          <span class="withdraw-option"><i class="fas fa-user-plus"></i> আরো ৬ জন</span>
+        </div>
+        <button class="btn-gold" id="copyBtn"><i class="fas fa-copy"></i> রেফার কোড কপি</button>
+      </div>
+      <div style="color:var(--ivory-dim);font-size:12px;text-align:center;padding:6px;">
+        <i class="fas fa-info-circle"></i> প্রতি রেফারে ২০ টাকা, উইথড্র করতে ১০ রেফার প্রয়োজন
+      </div>
+    </div>
+
+    <div class="footer-note"><i class="fas fa-shield-alt"></i> মিনি অ্যাপ ডেমো · সব ফিচার ইন্টারেক্টিভ</div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <button class="nav-btn active" data-page="page-home"><div class="nav-ic"><i class="fas fa-house"></i></div><div class="nav-lb">হোম</div></button>
+    <button class="nav-btn" data-page="page-ads"><div class="nav-ic"><i class="fas fa-ad"></i></div><div class="nav-lb">এড</div></button>
+    <button class="nav-btn has-alert" data-page="page-refer"><div class="nav-ic"><i class="fas fa-users"></i></div><div class="nav-lb">রেফার</div><span class="nav-dot"></span></button>
+    <button class="nav-btn" data-page="page-payment"><div class="nav-ic"><i class="fas fa-wallet"></i></div><div class="nav-lb">পেমেন্ট</div></button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const pages = {
+    'page-home': document.getElementById('page-home'),
+    'page-payment': document.getElementById('page-payment'),
+    'page-ads': document.getElementById('page-ads'),
+    'page-refer': document.getElementById('page-refer')
+  };
+
+  function switchPage(id){
+    Object.values(pages).forEach(p=>p.classList.remove('active-page'));
+    if(pages[id]) pages[id].classList.add('active-page');
+    navBtns.forEach(b=>b.classList.remove('active'));
+    const active = Array.from(navBtns).find(b=>b.dataset.page===id);
+    if(active){ active.classList.add('active'); active.classList.remove('has-alert'); }
+    document.querySelector('.content').scrollTo({top:0, behavior:'smooth'});
+  }
+
+  navBtns.forEach(btn=>{
+    btn.addEventListener('click', function(){ switchPage(this.dataset.page); });
+  });
+
+  document.querySelectorAll('.quick-btn[data-goto]').forEach(btn=>{
+    btn.addEventListener('click', function(){ switchPage('page-'+this.dataset.goto); });
+  });
+
+  // toast
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg, icon){
+    toast.innerHTML = `<i class="fas ${icon||'fa-check-circle'}"></i> ${msg}`;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>toast.classList.remove('show'), 2400);
+  }
+
+  // balance animation
+  let balance = 420;
+  const balanceEl = document.getElementById('balanceValue');
+  function animateBalance(to){
+    const from = balance; balance = to;
+    const dur=500, start=performance.now();
+    function step(now){
+      const p = Math.min(1,(now-start)/dur);
+      const val = Math.round(from+(to-from)*p);
+      balanceEl.innerHTML = `৳ ${val} <small>টাকা</small>`;
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // login demo
+  document.getElementById('loginBtn').addEventListener('click', function(){
+    const chars='0123456789ABCDEF'; let id='';
+    for(let i=0;i<8;i++) id += chars[Math.floor(Math.random()*chars.length)];
+    document.querySelector('.id-pill').innerHTML = `<i class="far fa-id-card"></i> ID: ${id}`;
+    showToast(`নতুন আইডি: ${id}`, 'fa-sign-in-alt');
+  });
+
+  // notif bell
+  document.getElementById('notifBtn').addEventListener('click', function(){
+    showToast('কোনো নতুন নোটিফিকেশন নেই', 'fa-bell');
+  });
+
+  // task quick button
+  document.getElementById('taskBtn').addEventListener('click', function(){
+    showToast('আজকের কোনো টাস্ক এখনো যোগ হয়নি', 'fa-tasks');
+  });
+
+  // withdraw method select
+  document.getElementById('methodRow').addEventListener('click', function(e){
+    const opt = e.target.closest('.withdraw-option');
+    if(!opt) return;
+    this.querySelectorAll('.withdraw-option').forEach(o=>o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+
+  document.getElementById('withdrawBtn').addEventListener('click', function(){
+    showToast('উইথড্র অনুরোধ গৃহীত (ডেমো)', 'fa-paper-plane');
+  });
+
+  // watch ad
+  function watchAd(){
+    animateBalance(balance+5);
+    showToast('+৫ টাকা যোগ হয়েছে (ডেমো)', 'fa-coins');
+  }
+  document.getElementById('watchAdBtn').addEventListener('click', watchAd);
+  document.querySelectorAll('.ad-slot').forEach(s=>s.addEventListener('click', watchAd));
+
+  // copy referral
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    showToast('রেফার কোড কপি হয়েছে (ডেমো)', 'fa-copy');
+  });
+})();
+</script>
+</body>
+</html>    }
 
         .dark-mode {
             --primary: #A78BFA;
